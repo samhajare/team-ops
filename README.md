@@ -21,78 +21,89 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Team Ops API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A NestJS REST API for customer management with JWT authentication, password hashing, and PostgreSQL via TypeORM.
 
-## Project setup
+## Features
+- Customer registration and login (with JWT)
+- Passwords hashed with bcrypt
+- Customer CRUD (Create, Read, Update, Delete)
+- Protected routes with JWT AuthGuard
+- PostgreSQL database (TypeORM)
+- Migration scripts for schema management
+
+## Project Setup
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+## Environment Variables
+Create a `.env` file in the project root with:
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=yourpassword
+DB_NAME=team_ops
+JWT_SECRET=your_jwt_secret
+```
+
+## Running the Project
 
 ```bash
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+yarn start:dev
 
-# production mode
-$ npm run start:prod
+# production
+npm run start:prod
 ```
 
-## Run tests
+## Database Migrations
 
 ```bash
-# unit tests
-$ npm run test
+# Generate a migration after changing entities
+yarn migration:generate -- <MigrationName>
 
-# e2e tests
-$ npm run test:e2e
+# Run migrations
+yarn migration:run
 
-# test coverage
-$ npm run test:cov
+# Revert last migration
+yarn migration:revert
 ```
 
-## Deployment
+## API Endpoints
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Auth
+- `POST /customers` — Register a new customer
+  - Body: `{ "email": string, "name": string, "password": string, "phone"?: string, "metadata"?: object }`
+- `POST /customers/login` — Login
+  - Body: `{ "email": string, "password": string }`
+  - Returns: `{ "access_token": string }`
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Customers
+- `GET /customers` — List all customers
+- `GET /customers/:id` — Get customer by id (JWT required)
+- `PATCH /customers/:id` — Update customer
+- `DELETE /customers/:id` — Delete customer
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+## Auth Usage
+- Pass JWT as a Bearer token in the `Authorization` header for protected routes.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Password Security
+- Passwords are hashed with bcrypt before storage.
+- Passwords are never returned in API responses.
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Tech Stack
+- [NestJS](https://nestjs.com/)
+- [TypeORM](https://typeorm.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [JWT](https://jwt.io/)
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT

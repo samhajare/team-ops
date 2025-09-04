@@ -5,9 +5,11 @@ export const WinstonLogger = WinstonModule.createLogger({
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         winston.format.colorize(),
-        winston.format.simple(),
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(({ level, message, timestamp, context }) => {
+          return `[${timestamp}] ${level}: ${context ? `[${context}] ` : ''}${message}`;
+        }),
       ),
     }),
     new winston.transports.File({

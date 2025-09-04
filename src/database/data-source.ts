@@ -13,7 +13,7 @@ export const dataSource = new DataSource({
   entities: [Customer],
   // migrations: [__dirname + '/migrations/*.{ts,js}'],
   migrations: [path.join(process.cwd(), 'migrations/*.{ts,js}')],
-  synchronize: false, // ✅ never true in production
+  synchronize: true, // ✅ never true in production
   logging: true,
   extra: {
     max: 20, // connection pool

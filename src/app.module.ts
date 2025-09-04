@@ -7,12 +7,16 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { jwtConstants } from './common/constant';
 import { JwtModule } from '@nestjs/jwt';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
+    }),
+    CacheModule.register({
+      isGlobal: true,
     }),
     JwtModule.register({
       global: true,

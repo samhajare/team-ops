@@ -77,9 +77,6 @@ export class CustomersService {
     }
   }
 
-  async findAll() {
-    return await this.customerRepository.find();
-  }
 
   async findOne(id: number) {
     return await this.customerRepository.findOne({ where: { id } });
